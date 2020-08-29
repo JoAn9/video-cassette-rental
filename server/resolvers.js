@@ -4,10 +4,14 @@ const Query = {
   movie: (parent, { id }) => db.movies.get(id),
   movies: () => db.movies.list(),
   actor: (parent, { id }) => db.actors.get(id),
+  actors: () => db.actors.list(),
 };
 
 const Mutation = {
-  createMovie: (parent, { input }) => {
+  createMovie: (parent, { input }, { user }) => {
+    if (!user) {
+      throw new Error('Unauthorized!!! Alarm Alarm!!!');
+    }
     const id = db.movies.create(input);
     return db.movies.get(id);
   },
