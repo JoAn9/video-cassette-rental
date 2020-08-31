@@ -68,7 +68,7 @@ function MovieForm() {
       <h1 className="title">New Movie</h1>
       <div className="box">
         <form onSubmit={handleSubmit}>
-          <div className="field is-danger">
+          <div className="field">
             <label className="label">Choose Actor</label>
             <div className={`select ${errors.selectedActor}`}>
               <select value={selectedActor} onChange={handleChangeActor}>

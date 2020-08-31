@@ -1,7 +1,7 @@
 [
   {
     "id": "S16EZxQQD",
-    "name": "Sylwester Stalone",
+    "name": "Sylvester Stallone",
     "description": "Very good actor"
   },
   {
@@ -13,5 +13,23 @@
     "id": "BJHw1NEXv",
     "name": "Leonardo DiCaprio",
     "description": "Anegdota mówi, iż w czasie ciąży matka DiCaprio często odwiedzała różnego rodzaju wystawy i muzea, twierdząc, że kontakt ze sztuką od najwcześniejszych dni uczyni z jej dziecka artystę. Podczas jednej z takich eskapad poczuła, że synek zaczyna się poruszać, a ponieważ stało się to, kiedy podziwiała jeden z obrazów Da Vinci zdecydowała się na nazwanie swojego dziecka imieniem mistrza - Leonardo. Nie wiadomo ile w tej historii jest prawdy a ile kłamstwa, ale faktem jest, że Leonardo DiCaprio zalicza się dziś do jednego z najlepszych aktorów amerykańskiego kina. Pierwszy raz przed kamerą stanął w wieku 5. lat w serialu 'Romper Room'. Nie był to zbyt udany start, ponieważ Leonardo prawie został wyrzucony z planu za złe zachowanie. "
+  },
+  {
+    "id": "HyIapOt7w",
+    "name": "Gwyneth Paltrow",
+    "description": "Aktorka teatralna, filmowa i telewizyjna. Występować zaczęła w wieku pięciu lat, kiedy to jej ojciec, reżyser i producent Bruce Paltrow, powierzył córce epizodyczną rolę w pilocie serialu telewizyjnego.",
+    "addedBy": "BJrp-DudG"
+  },
+  {
+    "id": "ryiOAuK7P",
+    "name": "Penélope Cruz",
+    "description": "Penélope urodziła się 28 kwietnia 1974 roku w Madrycie jako córka kupca Eduardo Cruza i fryzjerki Encarny Sánchez.",
+    "addedBy": "BJrp-DudG"
+  },
+  {
+    "id": "ByiTFT9mD",
+    "name": "Arnold Schwarzenegger",
+    "description": "Urodził się w niezamożnej, katolickiej rodzinie.  Jego rodzicami byli Aurelia (ur. 1922) i komendant miejscowej policji Gustav (ur. 1907). Ojciec brał udział w II wojnie światowej jako członek Narodowosocjalistycznej Niemieckiej Partii Robotników. W 1943 roku został zwolniony ze służby, gdy zaraził się malarią. ",
+    "addedBy": "BJrp-DudG"
   }
 ]

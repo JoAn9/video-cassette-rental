@@ -9,6 +9,9 @@ function NavBar({ loggedIn, onLogout }) {
           <Link className="navbar-item" to="/">
             Home
           </Link>
+          <Link className="navbar-item" to="/actors/new">
+            Add Actor
+          </Link>
           <Link className="navbar-item" to="/movies/new">
             Post Movie
           </Link>

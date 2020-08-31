@@ -8,7 +8,7 @@ async function graphqlRequest(query, variables = {}) {
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({ query, variables }),
   };
-  if (isLoggedIn) {
+  if (isLoggedIn()) {
     request.headers['authorization'] = `Bearer ${getAccessToken()}`;
   }
   const response = await fetch(endpointURL, request);
@@ -94,4 +94,20 @@ export async function createMovie(input) {
   `;
   const { movie } = await graphqlRequest(mutation, { input });
   return movie;
+}
+
+export async function addActor(input) {
+  const mutation = `mutation AddActor($input: AddActorInput) {
+    actor: addActor(input: $input) {
+      id
+      name
+      description
+      movies {
+        id
+        title
+      }
+    }
+  }`;
+  const { actor } = await graphqlRequest(mutation, { input });
+  return actor;
 }

@@ -11,6 +11,7 @@ import LoginForm from './LoginForm';
 import MovieBoard from './MovieBoard';
 import MovieDetail from './MovieDetail';
 import MovieForm from './MovieForm';
+import ActorForm from './ActorForm';
 import NavBar from './NavBar';
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
         <div className="container">
           <Switch>
             <Route exact path="/" component={MovieBoard} />
+            <Route exact path="/actors/new" component={ActorForm} />
             <Route path="/actors/:actorId" component={ActorDetail} />
             <Route exact path="/movies/new" component={MovieForm} />
             <Route path="/movies/:movieId" component={MovieDetail} />
