@@ -1,86 +1,106 @@
+import {
+  ApolloClient,
+  ApolloLink,
+  HttpLink,
+  InMemoryCache,
+} from 'apollo-boost';
+import gql from 'graphql-tag';
 import { isLoggedIn, getAccessToken } from './auth';
 
 const endpointURL = 'http://localhost:9000/graphql';
 
-async function graphqlRequest(query, variables = {}) {
-  const request = {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ query, variables }),
-  };
+const authLink = new ApolloLink((operation, forward) => {
   if (isLoggedIn()) {
-    request.headers['authorization'] = `Bearer ${getAccessToken()}`;
+    operation.setContext({
+      headers: {
+        authorization: `Bearer ${getAccessToken()}`,
+      },
+    });
   }
-  const response = await fetch(endpointURL, request);
-  const responseBody = await response.json();
+  return forward(operation);
+});
 
-  if (responseBody.errors) {
-    const message = responseBody.errors.map(err => err.message).join('\n');
-    throw new Error(message);
-  }
-
-  return responseBody.data;
-}
+const client = new ApolloClient({
+  link: ApolloLink.from([authLink, new HttpLink({ uri: endpointURL })]),
+  cache: new InMemoryCache(),
+});
 
 export async function loadMovie(id) {
-  const query = `query MovieQuery($id: ID!) {
-    movie(id: $id) {
-      id
-      title
-      actor {
+  const query = gql`
+    query MovieQuery($id: ID!) {
+      movie(id: $id) {
         id
-        name
+        title
+        actor {
+          id
+          name
+        }
+        description
       }
-      description
     }
-  }`;
-  const { movie } = await graphqlRequest(query, { id });
+  `;
+  const {
+    data: { movie },
+  } = await client.query({ query, variables: { id } });
   return movie;
 }
 
 export async function loadMovies() {
-  const query = `{
-    movies {
-      id
-      title
-      actor {
+  const query = gql`
+    {
+      movies {
         id
-        name
+        title
+        actor {
+          id
+          name
+        }
       }
     }
-  }`;
-  const { movies } = await graphqlRequest(query);
+  `;
+  const {
+    data: { movies },
+  } = await client.query({ query });
   return movies;
 }
 
 export async function loadActorDetail(id) {
-  const query = `query ActorQuery($id: ID!) {
-    actor(id: $id) {
-      id
-      name
-      description
-      movies {
+  const query = gql`
+    query ActorQuery($id: ID!) {
+      actor(id: $id) {
         id
-        title
+        name
+        description
+        movies {
+          id
+          title
+        }
       }
     }
-  }`;
-  const { actor } = await graphqlRequest(query, { id });
+  `;
+  const {
+    data: { actor },
+  } = await client.query({ query, variables: { id } });
   return actor;
 }
 
 export async function loadActors() {
-  const query = `{
-    actors {
-      id name
+  const query = gql`
+    {
+      actors {
+        id
+        name
+      }
     }
-  }`;
-  const { actors } = await graphqlRequest(query);
+  `;
+  const {
+    data: { actors },
+  } = await client.query({ query });
   return actors;
 }
 
 export async function createMovie(input) {
-  const mutation = `
+  const mutation = gql`
     mutation CreateMovie($input: CreateMovieInput) {
       movie: createMovie(input: $input) {
         id
@@ -92,22 +112,30 @@ export async function createMovie(input) {
       }
     }
   `;
-  const { movie } = await graphqlRequest(mutation, { input });
+  const {
+    data: { movie },
+  } = await client.mutate({ mutation, variables: { input } });
   return movie;
 }
 
 export async function addActor(input) {
-  const mutation = `mutation AddActor($input: AddActorInput) {
-    actor: addActor(input: $input) {
-      id
-      name
-      description
-      movies {
+  const mutation = gql`
+    mutation AddActor($input: AddActorInput) {
+      actor: addActor(input: $input) {
         id
-        title
+        name
+        description
+        movies {
+          id
+          title
+        }
       }
     }
-  }`;
-  const { actor } = await graphqlRequest(mutation, { input });
+  `;
+  const {
+    data: { actor },
+  } = await client.mutate({ mutation, variables: { input } });
   return actor;
 }
+
+// to fix: caching
