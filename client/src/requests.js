@@ -60,7 +60,7 @@ export async function loadMovies() {
   `;
   const {
     data: { movies },
-  } = await client.query({ query });
+  } = await client.query({ query, fetchPolicy: 'no-cache' });
   return movies;
 }
 
@@ -95,7 +95,7 @@ export async function loadActors() {
   `;
   const {
     data: { actors },
-  } = await client.query({ query });
+  } = await client.query({ query, fetchPolicy: 'no-cache' });
   return actors;
 }
 
@@ -137,5 +137,3 @@ export async function addActor(input) {
   } = await client.mutate({ mutation, variables: { input } });
   return actor;
 }
-
-// to fix: caching
