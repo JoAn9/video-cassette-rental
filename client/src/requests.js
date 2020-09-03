@@ -25,115 +25,142 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-export async function loadMovie(id) {
-  const query = gql`
-    query MovieQuery($id: ID!) {
-      movie(id: $id) {
+const movieQuery = gql`
+  query MovieQuery($id: ID!) {
+    movie(id: $id) {
+      id
+      title
+      actor {
         id
-        title
-        actor {
-          id
-          name
-        }
-        description
+        name
+      }
+      description
+    }
+  }
+`;
+
+const createMovieMutation = gql`
+  mutation CreateMovie($input: CreateMovieInput) {
+    movie: createMovie(input: $input) {
+      id
+      title
+      actor {
+        id
+        name
+      }
+      description
+    }
+  }
+`;
+
+const moviesQuery = gql`
+  query MoviesQuery {
+    movies {
+      id
+      title
+      actor {
+        id
+        name
       }
     }
-  `;
+  }
+`;
+
+const actorsQuery = gql`
+  query ActorsQuery {
+    actors {
+      id
+      name
+    }
+  }
+`;
+
+const actorQuery = gql`
+  query ActorQuery($id: ID!) {
+    actor(id: $id) {
+      id
+      name
+      description
+      movies {
+        id
+        title
+      }
+    }
+  }
+`;
+
+const addActorMutation = gql`
+  mutation AddActor($input: AddActorInput) {
+    actor: addActor(input: $input) {
+      id
+      name
+      description
+      movies {
+        id
+        title
+      }
+    }
+  }
+`;
+
+export async function loadMovie(id) {
   const {
     data: { movie },
-  } = await client.query({ query, variables: { id } });
+  } = await client.query({ query: movieQuery, variables: { id } });
+  return movie;
+}
+
+export async function createMovie(input) {
+  const {
+    data: { movie },
+  } = await client.mutate({
+    mutation: createMovieMutation,
+    variables: { input },
+    update: (cache, { data }) => {
+      cache.writeQuery({
+        query: movieQuery,
+        variables: { id: data.movie.id },
+        data,
+      });
+    },
+  });
   return movie;
 }
 
 export async function loadMovies() {
-  const query = gql`
-    {
-      movies {
-        id
-        title
-        actor {
-          id
-          name
-        }
-      }
-    }
-  `;
   const {
     data: { movies },
-  } = await client.query({ query, fetchPolicy: 'no-cache' });
+  } = await client.query({ query: moviesQuery, fetchPolicy: 'no-cache' });
   return movies;
 }
 
 export async function loadActorDetail(id) {
-  const query = gql`
-    query ActorQuery($id: ID!) {
-      actor(id: $id) {
-        id
-        name
-        description
-        movies {
-          id
-          title
-        }
-      }
-    }
-  `;
   const {
     data: { actor },
-  } = await client.query({ query, variables: { id } });
+  } = await client.query({ query: actorQuery, variables: { id } });
   return actor;
 }
 
 export async function loadActors() {
-  const query = gql`
-    {
-      actors {
-        id
-        name
-      }
-    }
-  `;
   const {
     data: { actors },
-  } = await client.query({ query, fetchPolicy: 'no-cache' });
+  } = await client.query({ query: actorsQuery });
   return actors;
 }
 
-export async function createMovie(input) {
-  const mutation = gql`
-    mutation CreateMovie($input: CreateMovieInput) {
-      movie: createMovie(input: $input) {
-        id
-        title
-        actor {
-          id
-          name
-        }
-      }
-    }
-  `;
-  const {
-    data: { movie },
-  } = await client.mutate({ mutation, variables: { input } });
-  return movie;
-}
-
 export async function addActor(input) {
-  const mutation = gql`
-    mutation AddActor($input: AddActorInput) {
-      actor: addActor(input: $input) {
-        id
-        name
-        description
-        movies {
-          id
-          title
-        }
-      }
-    }
-  `;
   const {
     data: { actor },
-  } = await client.mutate({ mutation, variables: { input } });
+  } = await client.mutate({
+    mutation: addActorMutation,
+    variables: { input },
+    update: (cache, { data }) => {
+      cache.writeQuery({
+        query: actorQuery,
+        variables: { id: data.actor.id },
+        data,
+      });
+    },
+  });
   return actor;
 }
