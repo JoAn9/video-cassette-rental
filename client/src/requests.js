@@ -25,32 +25,34 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+const movieDetailFragment = gql`
+  fragment MovieQuery on Movie {
+    id
+    title
+    actor {
+      id
+      name
+    }
+    description
+  }
+`;
+
 const movieQuery = gql`
   query MovieQuery($id: ID!) {
     movie(id: $id) {
-      id
-      title
-      actor {
-        id
-        name
-      }
-      description
+      ...MovieQuery
     }
   }
+  ${movieDetailFragment}
 `;
 
 const createMovieMutation = gql`
   mutation CreateMovie($input: CreateMovieInput) {
     movie: createMovie(input: $input) {
-      id
-      title
-      actor {
-        id
-        name
-      }
-      description
+      ...MovieQuery
     }
   }
+  ${movieDetailFragment}
 `;
 
 const moviesQuery = gql`
