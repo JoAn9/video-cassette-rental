@@ -3,6 +3,11 @@ type Query {
   actors: [Actor!]
   movie(id: ID!): Movie
   movies: [Movie!]
+  messages: [Message]
+}
+
+type Subscription {
+  messageAdded: Message
 }
 
 type Actor {
@@ -22,6 +27,13 @@ type Movie {
 type Mutation {
   createMovie(input: CreateMovieInput): Movie
   addActor(input: AddActorInput): Actor
+  addMessage(input: AddMessageInput!): Message
+}
+
+type Message {
+  id: ID!
+  from: String
+  text: String
 }
 
 input CreateMovieInput {
@@ -33,4 +45,8 @@ input CreateMovieInput {
 input AddActorInput {
   name: String
   description: String
+}
+
+input AddMessageInput {
+  text: String
 }
