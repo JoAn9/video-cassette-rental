@@ -1,0 +1,22 @@
+[
+  {
+    "id": "SJKhIAKYB",
+    "from": "system",
+    "text": "Welcome!"
+  },
+  {
+    "id": "Hk4qCo_VP",
+    "from": "Alice",
+    "text": "hej janusz"
+  },
+  {
+    "id": "B1iqRsuNv",
+    "from": "Janko",
+    "text": "hej alice"
+  },
+  {
+    "id": "Skcg43OEw",
+    "from": "Alice",
+    "text": "how are you today?"
+  }
+]

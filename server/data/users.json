@@ -2,6 +2,19 @@
   {
     "id": "BJrp-DudG",
     "email": "alice@github.com",
-    "password": "alice123"
+    "password": "alice123",
+    "name": "Alice"
+  },
+  {
+    "id": "BJrp-DudY",
+    "email": "bob@wp.pl",
+    "password": "bob123",
+    "name": "Bobby"
+  },
+  {
+    "id": "BJrp-DudZ",
+    "email": "janusz@gmail.com",
+    "password": "janusz123",
+    "name": "Janko"
   }
 ]

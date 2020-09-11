@@ -6,4 +6,5 @@ module.exports = {
   users: store.collection('users'),
   actors: store.collection('actors'),
   movies: store.collection('movies'),
+  messages: store.collection('messages'),
 };
