@@ -15,6 +15,9 @@ function NavBar({ loggedIn, onLogout }) {
           <Link className="navbar-item" to="/movies/new">
             Post Movie
           </Link>
+          <Link className="navbar-item" to="/chat">
+            Chat
+          </Link>
           {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
           <a className="navbar-item" onClick={onLogout}>
             Logout

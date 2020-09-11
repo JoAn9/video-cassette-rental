@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { login } from './auth';
+import { login } from './utils/auth';
 
 function LoginForm({ onLogin }) {
   const [input, setInput] = useState({ email: '', password: '', error: false });
