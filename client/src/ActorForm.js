@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { addActor } from './requests';
+import { addActor } from './graphql/requests';
 
 function ActorForm() {
   const [name, setName] = useState('');

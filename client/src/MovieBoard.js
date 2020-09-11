@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import MovieList from './MovieList';
-import { loadMovies } from './requests';
+import { loadMovies } from './graphql/requests';
 
 function MovieBoard() {
   const [movies, setMovies] = useState([]);

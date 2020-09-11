@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { createMovie, loadActors } from './requests';
+import { createMovie, loadActors } from './graphql/requests';
 
 function MovieForm() {
   const [actors, setActors] = useState([]);
