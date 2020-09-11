@@ -4,11 +4,10 @@ import {
   HttpLink,
   InMemoryCache,
   split,
-  gql,
 } from '@apollo/client/core';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
-import { isLoggedIn, getAccessToken } from '../auth';
+import { isLoggedIn, getAccessToken } from '../utils/auth';
 
 const endpointURL = 'http://localhost:8000/graphql';
 const wsUrl = 'ws://localhost:8000/graphql';
