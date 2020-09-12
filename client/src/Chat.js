@@ -9,8 +9,6 @@ import MessageInput from './MessageInput';
 import MessageList from './MessageList';
 
 function Chat() {
-  //   // let subscription = null;
-
   const [messages, setMessages] = useState([]);
   const user = useContext(UserContext);
 
@@ -20,10 +18,12 @@ function Chat() {
       setMessages(fetchedMessages);
     }
     fetchMessages();
-    onMessageAdded(msg => {
+    const subscription = onMessageAdded(msg => {
       setMessages(prev => [...prev, msg]);
     });
-    return () => {};
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
   const handleSend = async text => {

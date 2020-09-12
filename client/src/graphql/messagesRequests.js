@@ -46,5 +46,5 @@ export async function addMessage(text) {
 
 export function onMessageAdded(handleMessage) {
   const observable = client.subscribe({ query: messageAddedSubscription });
-  observable.subscribe(({ data }) => handleMessage(data.messageAdded));
+  return observable.subscribe(({ data }) => handleMessage(data.messageAdded));
 }
