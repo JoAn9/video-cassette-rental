@@ -16,25 +16,25 @@ const Query = {
   movies: () => db.movies.list(),
   actor: (parent, { id }) => db.actors.get(id),
   actors: () => db.actors.list(),
-  messages: (parent, args, { userId }) => {
-    requireAuth(userId);
+  messages: (parent, args, { user }) => {
+    requireAuth(user.id);
     return db.messages.list();
   },
 };
 
 const Mutation = {
-  createMovie: (parent, { input }, { userId }) => {
-    requireAuth(userId);
+  createMovie: (parent, { input }, { user }) => {
+    requireAuth(user.id);
     const id = db.movies.create(input);
     return db.movies.get(id);
   },
-  addActor: (parent, { input }, { userId }) => {
-    requireAuth(userId);
-    const id = db.actors.create({ ...input, addedBy: userId });
+  addActor: (parent, { input }, { user }) => {
+    requireAuth(user.id);
+    const id = db.actors.create({ ...input, addedBy: user.id });
     return db.actors.get(id);
   },
-  addMessage: (parent, { input }, { userId, user }) => {
-    requireAuth(userId);
+  addMessage: (parent, { input }, { user }) => {
+    requireAuth(user.id);
     const messageId = db.messages.create({
       from: user.name,
       text: input.text,
@@ -47,7 +47,10 @@ const Mutation = {
 
 const Subscription = {
   messageAdded: {
-    subscribe: () => pubSub.asyncIterator(MESSAGE_ADDED),
+    subscribe: (parent, args, { user }) => {
+      requireAuth(user.sub);
+      return pubSub.asyncIterator(MESSAGE_ADDED);
+    },
   },
 };
 
