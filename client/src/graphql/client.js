@@ -7,16 +7,17 @@ import {
 } from '@apollo/client/core';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
-import { isLoggedIn, getAccessToken } from '../utils/auth';
+import { getAccessToken } from '../utils/auth';
 
 const endpointURL = 'http://localhost:8000/graphql';
 const wsUrl = 'ws://localhost:8000/graphql';
 
 const authLink = new ApolloLink((operation, forward) => {
-  if (isLoggedIn()) {
+  const token = getAccessToken();
+  if (token) {
     operation.setContext({
       headers: {
-        authorization: `Bearer ${getAccessToken()}`,
+        authorization: `Bearer ${token}`,
       },
     });
   }
@@ -31,6 +32,9 @@ const httpLink = ApolloLink.from([
 const wsLink = new WebSocketLink({
   uri: wsUrl,
   options: {
+    connectionParams: () => ({
+      accessToken: getAccessToken(),
+    }),
     lazy: true,
     reconnect: true,
   },
