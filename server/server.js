@@ -24,10 +24,14 @@ app.use(
 const typeDefs = gql(fs.readFileSync('./schema.graphql', { encoding: 'utf8' }));
 const resolvers = require('./resolvers');
 
-// const context = ({ req }) => ({ user: req.user && db.users.get(req.user.sub) });
-const context = ({ req }) => {
+const context = ({ req, connection }) => {
   if (req && req.user) {
-    return { user: db.users.get(req.user.sub), userId: req.user.sub };
+    // return { user: db.users.get(req.user.sub), userId: req.user.sub };
+    return { user: db.users.get(req.user.sub) };
+  }
+  if (connection && connection.context && connection.context.accessToken) {
+    const decodedUser = jwt.verify(connection.context.accessToken, jwtSecret);
+    return { user: decodedUser };
   }
   return {};
 };
@@ -49,5 +53,3 @@ app.post('/login', (req, res) => {
 const httpServer = http.createServer(app);
 apolloServer.installSubscriptionHandlers(httpServer);
 httpServer.listen(port, () => console.info(`Server started on port ${port}`));
-
-// TO-FIX: CONTEXT
