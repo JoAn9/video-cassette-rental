@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ApolloProvider } from '@apollo/client';
 import {
   BrowserRouter as Router,
   Route,
@@ -6,6 +7,7 @@ import {
   useHistory,
 } from 'react-router-dom';
 import { isLoggedIn, logout, getLoggedUser } from './utils/auth';
+import client from './graphql/client';
 import ActorDetail from './ActorDetail';
 import LoginForm from './LoginForm';
 import MovieBoard from './MovieBoard';
@@ -36,8 +38,8 @@ function App() {
   };
 
   return (
-    <UserContext.Provider value={user}>
-      <div>
+    <ApolloProvider client={client}>
+      <UserContext.Provider value={user}>
         <NavBar loggedIn={loggedIn} onLogout={handleLogout} />
         <section className="section">
           <div className="container">
@@ -56,8 +58,8 @@ function App() {
             </Switch>
           </div>
         </section>
-      </div>
-    </UserContext.Provider>
+      </UserContext.Provider>
+    </ApolloProvider>
   );
 }
 

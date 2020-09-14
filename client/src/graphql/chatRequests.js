@@ -1,7 +1,6 @@
 import { gql } from '@apollo/client/core';
-import client from './client';
 
-const messagesQuery = gql`
+export const messagesQuery = gql`
   query MessagesQuery {
     messages {
       id
@@ -11,7 +10,7 @@ const messagesQuery = gql`
   }
 `;
 
-const addMessageMutation = gql`
+export const addMessageMutation = gql`
   mutation AddMessage($input: AddMessageInput!) {
     message: addMessage(input: $input) {
       id
@@ -21,7 +20,7 @@ const addMessageMutation = gql`
   }
 `;
 
-const messageAddedSubscription = gql`
+export const messageAddedSubscription = gql`
   subscription {
     messageAdded {
       id
@@ -31,20 +30,20 @@ const messageAddedSubscription = gql`
   }
 `;
 
-export async function getMessages() {
-  const { data } = await client.query({ query: messagesQuery });
-  return data.messages;
-}
+// export async function getMessages() {
+//   const { data } = await client.query({ query: messagesQuery });
+//   return data.messages;
+// }
 
-export async function addMessage(text) {
-  const { data } = await client.mutate({
-    mutation: addMessageMutation,
-    variables: { input: { text } },
-  });
-  return data.message;
-}
+// export async function addMessage(text) {
+//   const { data } = await client.mutate({
+//     mutation: addMessageMutation,
+//     variables: { input: { text } },
+//   });
+//   return data.message;
+// }
 
-export function onMessageAdded(handleMessage) {
-  const observable = client.subscribe({ query: messageAddedSubscription });
-  return observable.subscribe(({ data }) => handleMessage(data.messageAdded));
-}
+// export function onMessageAdded(handleMessage) {
+//   const observable = client.subscribe({ query: messageAddedSubscription });
+//   return observable.subscribe(({ data }) => handleMessage(data.messageAdded));
+// }
