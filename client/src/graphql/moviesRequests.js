@@ -122,7 +122,7 @@ export async function loadActorDetail(id) {
 export async function loadActors() {
   const {
     data: { actors },
-  } = await client.query({ query: actorsQuery });
+  } = await client.query({ query: actorsQuery, fetchPolicy: 'no-cache' });
   return actors;
 }
 
