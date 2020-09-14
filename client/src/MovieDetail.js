@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { loadMovie } from './graphql/requests';
+import { loadMovie } from './graphql/moviesRequests';
 
 function MovieDetail() {
   const [movie, setMovie] = useState(null);

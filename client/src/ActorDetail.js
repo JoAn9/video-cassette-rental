@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import MovieList from './MovieList';
-import { loadActorDetail } from './graphql/requests';
+import { loadActorDetail } from './graphql/moviesRequests';
 
 function ActorDetail() {
   const [actor, setActor] = useState(null);

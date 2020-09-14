@@ -51,6 +51,7 @@ const isSubscription = operation => {
 const client = new ApolloClient({
   link: split(isSubscription, wsLink, httpLink),
   cache: new InMemoryCache(),
+  // defaultOptions: { query: { fetchPolicy: 'no-cache' } },
 });
 
 export default client;

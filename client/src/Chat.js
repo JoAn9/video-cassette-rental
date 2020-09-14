@@ -4,7 +4,7 @@ import {
   getMessages,
   addMessage,
   onMessageAdded,
-} from './graphql/messagesRequests';
+} from './graphql/chatRequests';
 import MessageInput from './MessageInput';
 import MessageList from './MessageList';
 
