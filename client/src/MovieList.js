@@ -15,7 +15,7 @@ function MovieList({ movies }) {
     );
   };
 
-  return <ul className="box">{movies.map(movie => renderMovie(movie))}</ul>;
+  return <ul className="box">{movies?.map(movie => renderMovie(movie))}</ul>;
 }
 
 export default MovieList;

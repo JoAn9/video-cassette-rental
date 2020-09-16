@@ -4,6 +4,7 @@ import {
   addMessageMutation,
   messageAddedSubscription,
 } from './graphql/chatRequests';
+import { actorQuery } from './graphql/moviesRequests';
 
 export function useChatMessages() {
   const { data } = useQuery(messagesQuery);
@@ -24,6 +25,12 @@ export function useChatMessages() {
     messages,
     addMessage: text => addMessage({ variables: { input: { text } } }),
   };
+}
+
+export function useActorDetail(id) {
+  const { loading, error, data } = useQuery(actorQuery, { variables: { id } });
+  const actor = data ? data.actor : {};
+  return { actor, loading, error };
 }
 
 // const [messages, setMessages] = useState([]);

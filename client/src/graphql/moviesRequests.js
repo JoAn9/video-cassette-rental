@@ -53,7 +53,7 @@ const actorsQuery = gql`
   }
 `;
 
-const actorQuery = gql`
+export const actorQuery = gql`
   query ActorQuery($id: ID!) {
     actor(id: $id) {
       id
@@ -110,13 +110,6 @@ export async function loadMovies() {
     data: { movies },
   } = await client.query({ query: moviesQuery, fetchPolicy: 'no-cache' });
   return movies;
-}
-
-export async function loadActorDetail(id) {
-  const {
-    data: { actor },
-  } = await client.query({ query: actorQuery, variables: { id } });
-  return actor;
 }
 
 export async function loadActors() {

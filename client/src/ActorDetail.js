@@ -1,21 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import MovieList from './MovieList';
-import { loadActorDetail } from './graphql/moviesRequests';
+import { useActorDetail } from './hooks';
 
 function ActorDetail() {
-  const [actor, setActor] = useState(null);
-
   const { actorId } = useParams();
-  useEffect(() => {
-    async function fetchData() {
-      const response = await loadActorDetail(actorId);
-      setActor(response);
-    }
-    fetchData();
-  }, []);
+  const { actor, loading, error } = useActorDetail(actorId);
 
-  if (!actor) return null;
+  if (loading) return 'Loading';
+  if (error) return `Some error occurs ${error.message}`;
+  if (!actor) return 'Actor not found';
 
   const { name, description, movies } = actor;
 
