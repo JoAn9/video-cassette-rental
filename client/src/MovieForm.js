@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { createMovie, loadActors } from './graphql/moviesRequests';
+import { useMovieForm } from './hooks';
 
 function MovieForm() {
-  const [actors, setActors] = useState([]);
+  let history = useHistory();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [selectedActor, setSelectedActor] = useState('');
@@ -13,16 +13,9 @@ function MovieForm() {
     description: '',
   });
 
-  useEffect(() => {
-    const fetchActors = async () => {
-      const loadedActors = await loadActors();
-      setActors(loadedActors);
-    };
-    fetchActors();
-    return () => {};
-  }, []);
-
-  let history = useHistory();
+  const { actors, loading, error, createMovie } = useMovieForm();
+  if (loading) return 'Loading';
+  if (error) return `Some error occurs ${error.message}`;
 
   const handleChangeActor = event => {
     setErrors({ ...errors, selectedActor: '' });
@@ -55,8 +48,12 @@ function MovieForm() {
       return;
     }
 
-    const movie = await createMovie({
-      actorId: actors.find(item => item.name === selectedActor).id,
+    const actorId = actors.find(item => item.name === selectedActor).id;
+
+    const {
+      data: { movie },
+    } = await createMovie({
+      actorId,
       title,
       description,
     });

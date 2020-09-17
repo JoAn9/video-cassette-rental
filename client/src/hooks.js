@@ -4,7 +4,13 @@ import {
   addMessageMutation,
   messageAddedSubscription,
 } from './graphql/chatRequests';
-import { addActorMutation, actorQuery } from './graphql/moviesRequests';
+import {
+  addActorMutation,
+  actorQuery,
+  actorsQuery,
+  createMovieMutation,
+  movieQuery,
+} from './graphql/moviesRequests';
 
 export function useChatMessages() {
   const { data } = useQuery(messagesQuery);
@@ -46,6 +52,29 @@ export function useAddActor() {
   return {
     addActor: ({ name, description }) =>
       addActor({ variables: { input: { name, description } } }),
+  };
+}
+
+export function useMovieForm() {
+  const { loading, error, data } = useQuery(actorsQuery, {
+    fetchPolicy: 'no-cache',
+  });
+  const actors = data ? data.actors : [];
+  const [createMovie] = useMutation(createMovieMutation, {
+    update: (cache, { data }) => {
+      cache.writeQuery({
+        query: movieQuery,
+        variables: { id: data.movie.id },
+        data,
+      });
+    },
+  });
+  return {
+    actors,
+    loading,
+    error,
+    createMovie: ({ actorId, title, description }) =>
+      createMovie({ variables: { input: { actorId, title, description } } }),
   };
 }
 

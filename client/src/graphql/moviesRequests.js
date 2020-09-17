@@ -13,7 +13,7 @@ const movieDetailFragment = gql`
   }
 `;
 
-const movieQuery = gql`
+export const movieQuery = gql`
   query MovieQuery($id: ID!) {
     movie(id: $id) {
       ...MovieQuery
@@ -22,7 +22,7 @@ const movieQuery = gql`
   ${movieDetailFragment}
 `;
 
-const createMovieMutation = gql`
+export const createMovieMutation = gql`
   mutation CreateMovie($input: CreateMovieInput) {
     movie: createMovie(input: $input) {
       ...MovieQuery
@@ -44,7 +44,7 @@ const moviesQuery = gql`
   }
 `;
 
-const actorsQuery = gql`
+export const actorsQuery = gql`
   query ActorsQuery {
     actors {
       id
@@ -88,33 +88,9 @@ export async function loadMovie(id) {
   return movie;
 }
 
-export async function createMovie(input) {
-  const {
-    data: { movie },
-  } = await client.mutate({
-    mutation: createMovieMutation,
-    variables: { input },
-    update: (cache, { data }) => {
-      cache.writeQuery({
-        query: movieQuery,
-        variables: { id: data.movie.id },
-        data,
-      });
-    },
-  });
-  return movie;
-}
-
 export async function loadMovies() {
   const {
     data: { movies },
   } = await client.query({ query: moviesQuery, fetchPolicy: 'no-cache' });
   return movies;
-}
-
-export async function loadActors() {
-  const {
-    data: { actors },
-  } = await client.query({ query: actorsQuery, fetchPolicy: 'no-cache' });
-  return actors;
 }
