@@ -67,7 +67,7 @@ export const actorQuery = gql`
   }
 `;
 
-const addActorMutation = gql`
+export const addActorMutation = gql`
   mutation AddActor($input: AddActorInput) {
     actor: addActor(input: $input) {
       id
@@ -119,19 +119,19 @@ export async function loadActors() {
   return actors;
 }
 
-export async function addActor(input) {
-  const {
-    data: { actor },
-  } = await client.mutate({
-    mutation: addActorMutation,
-    variables: { input },
-    update: (cache, { data }) => {
-      cache.writeQuery({
-        query: actorQuery,
-        variables: { id: data.actor.id },
-        data,
-      });
-    },
-  });
-  return actor;
-}
+// export async function addActor(input) {
+//   const {
+//     data: { actor },
+//   } = await client.mutate({
+//     mutation: addActorMutation,
+//     variables: { input },
+//     update: (cache, { data }) => {
+//       cache.writeQuery({
+//         query: actorQuery,
+//         variables: { id: data.actor.id },
+//         data,
+//       });
+//     },
+//   });
+//   return actor;
+// }

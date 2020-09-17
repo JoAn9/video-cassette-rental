@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { addActor } from './graphql/moviesRequests';
+import { useAddActor } from './hooks';
 
 function ActorForm() {
   const [name, setName] = useState('');
@@ -9,6 +9,7 @@ function ActorForm() {
     name: '',
     description: '',
   });
+  const { addActor } = useAddActor();
 
   let history = useHistory();
 
@@ -35,10 +36,10 @@ function ActorForm() {
       return;
     }
 
-    const actor = await addActor({
-      name,
-      description,
-    });
+    const {
+      data: { actor },
+    } = await addActor({ name, description });
+
     history.push(`/actors/${actor.id}`);
   };
 
