@@ -118,20 +118,3 @@ export async function loadActors() {
   } = await client.query({ query: actorsQuery, fetchPolicy: 'no-cache' });
   return actors;
 }
-
-// export async function addActor(input) {
-//   const {
-//     data: { actor },
-//   } = await client.mutate({
-//     mutation: addActorMutation,
-//     variables: { input },
-//     update: (cache, { data }) => {
-//       cache.writeQuery({
-//         query: actorQuery,
-//         variables: { id: data.actor.id },
-//         data,
-//       });
-//     },
-//   });
-//   return actor;
-// }

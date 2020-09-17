@@ -27,6 +27,12 @@ export function useChatMessages() {
   };
 }
 
+export function useActorDetail(id) {
+  const { loading, error, data } = useQuery(actorQuery, { variables: { id } });
+  const actor = data ? data.actor : {};
+  return { actor, loading, error };
+}
+
 export function useAddActor() {
   const [addActor] = useMutation(addActorMutation, {
     update: (cache, { data }) => {
@@ -52,5 +58,3 @@ export function useAddActor() {
 //     setMessages([...messages, subscriptionData.data.messageAdded]);
 //   },
 // });
-
-// const { loading, error, data } = useQuery(messagesQuery, {fetchPolicy: 'no-cache', variables: {}});

@@ -1,21 +1,17 @@
 import React from 'react';
-import { useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 import MovieList from './MovieList';
-import { actorQuery } from './graphql/moviesRequests';
+import { useActorDetail } from './hooks';
 
 function ActorDetail() {
   const { actorId } = useParams();
 
-  const { loading, error, data } = useQuery(actorQuery, {
-    variables: { id: actorId },
-  });
+  const { actor, loading, error } = useActorDetail(actorId);
 
   if (loading) return 'Loading';
   if (error) return `Some error occurs ${error.message}`;
-
-  const { actor } = data;
   if (!actor) return 'Actor not found';
+
   const { name, description, movies } = actor;
 
   return (
