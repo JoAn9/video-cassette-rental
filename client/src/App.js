@@ -65,6 +65,6 @@ function App() {
 
 export default props => (
   <Router>
-    <App {...props} />
+    <App data-test="app-component" {...props} />
   </Router>
 );
