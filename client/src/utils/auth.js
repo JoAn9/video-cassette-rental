@@ -1,5 +1,5 @@
 // NOTE: this example keeps the access token in LocalStorage
-// In a real application you may want to use cookies instead for better security (e.g. "http only" cookies)
+// In a real application use cookies instead for better security (e.g. "http only" cookies)
 import jwtDecode from 'jwt-decode';
 
 const accessTokenKey = 'accessToken';
@@ -16,16 +16,18 @@ export function getLoggedUser() {
 }
 
 export async function login(email, password) {
-  const response = await fetch('http://localhost:8000/login', {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ email, password }),
-  });
-  if (response.ok) {
+  try {
+    const response = await fetch('http://localhost:8000/login', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
     const { token } = await response.json();
     localStorage.setItem(accessTokenKey, token);
+    return token;
+  } catch (error) {
+    return null;
   }
-  return response.ok;
 }
 
 export function isLoggedIn() {
