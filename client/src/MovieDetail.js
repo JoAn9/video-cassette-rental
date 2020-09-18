@@ -12,7 +12,7 @@ function MovieDetail() {
       setMovie(response);
     }
     fetchData();
-  }, []);
+  }, [movieId]);
 
   if (!movie) return null;
 

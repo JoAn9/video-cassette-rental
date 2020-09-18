@@ -6,7 +6,7 @@ function MessageList({ messages, user }) {
     const box = boxRef.current;
     box.scrollTo(0, box.scrollHeight);
     return () => {};
-  }, [messages]);
+  }, [boxRef]);
 
   const renderMessage = item => {
     let tag = 'tag';
