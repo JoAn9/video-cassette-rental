@@ -37,3 +37,8 @@ export function isLoggedIn() {
 export function logout() {
   localStorage.removeItem(accessTokenKey);
 }
+
+// default export for mocking in tests
+export default {
+  login,
+};

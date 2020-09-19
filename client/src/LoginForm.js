@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { login } from './utils/auth';
+import auth from './utils/auth';
 
 function LoginForm({ onLogin }) {
   const [input, setInput] = useState({ email: '', password: '', error: false });
@@ -12,7 +12,7 @@ function LoginForm({ onLogin }) {
   const handleClick = async event => {
     event.preventDefault();
     const { email, password } = input;
-    const response = await login(email, password);
+    const response = await auth.login(email, password);
     response ? onLogin() : setInput({ ...input, error: true });
   };
 
@@ -47,7 +47,11 @@ function LoginForm({ onLogin }) {
       <div className="field">
         <p className="help is-danger">{error && 'Invalid credentials'}</p>
         <div className="control">
-          <button className="button is-link" onClick={handleClick}>
+          <button
+            className="button is-link"
+            onClick={handleClick}
+            data-test="login-button"
+          >
             Login
           </button>
         </div>
