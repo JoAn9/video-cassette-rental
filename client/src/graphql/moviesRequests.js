@@ -31,7 +31,7 @@ export const createMovieMutation = gql`
   ${movieDetailFragment}
 `;
 
-const moviesQuery = gql`
+export const moviesQuery = gql`
   query MoviesQuery {
     movies {
       id
@@ -88,9 +88,9 @@ export async function loadMovie(id) {
   return movie;
 }
 
-export async function loadMovies() {
-  const {
-    data: { movies },
-  } = await client.query({ query: moviesQuery, fetchPolicy: 'no-cache' });
-  return movies;
-}
+// export async function loadMovies() {
+//   const {
+//     data: { movies },
+//   } = await client.query({ query: moviesQuery, fetchPolicy: 'no-cache' });
+//   return movies;
+// }

@@ -1,16 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import MovieList from './MovieList';
-import { loadMovies } from './graphql/moviesRequests';
+import { useMovieBoard } from './hooks';
 
 function MovieBoard() {
-  const [movies, setMovies] = useState([]);
-  useEffect(() => {
-    async function fetchData() {
-      const response = await loadMovies();
-      setMovies(response);
-    }
-    fetchData();
-  }, []);
+  const { movies, loading, error } = useMovieBoard();
+
+  if (loading) return 'Loading...';
+  if (error) return `Some error occurs: ${error.message}`;
+
   return (
     <div>
       <h1 className="title">Movie Board</h1>

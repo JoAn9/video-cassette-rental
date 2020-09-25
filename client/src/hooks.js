@@ -10,6 +10,7 @@ import {
   actorsQuery,
   createMovieMutation,
   movieQuery,
+  moviesQuery,
 } from './graphql/moviesRequests';
 
 export function useChatMessages() {
@@ -76,6 +77,14 @@ export function useMovieForm() {
     createMovie: ({ actorId, title, description }) =>
       createMovie({ variables: { input: { actorId, title, description } } }),
   };
+}
+
+export function useMovieBoard() {
+  const { loading, error, data } = useQuery(moviesQuery, {
+    fetchPolicy: 'no-cache',
+  });
+  const movies = data ? data.movies : [];
+  return { movies, loading, error };
 }
 
 // const [messages, setMessages] = useState([]);
