@@ -1,25 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { loadMovie } from './graphql/moviesRequests';
+import { useMovieDetail } from './hooks';
 
 function MovieDetail() {
-  const [movie, setMovie] = useState(null);
   const { movieId } = useParams();
+  const { loading, error, movie } = useMovieDetail(movieId);
 
-  useEffect(() => {
-    async function fetchData() {
-      const response = await loadMovie(movieId);
-      setMovie(response);
-    }
-    fetchData();
-  }, [movieId]);
-
+  if (loading) return 'Loading...';
+  if (error) return `Some error occurs: ${error.message}`;
   if (!movie) return null;
 
   const { title, description, actor } = movie;
-
   return (
-    <div>
+    <div data-test="movie-component">
       <h1 className="title">{title}</h1>
       <h2 className="subtitle">
         <Link to={`/actors/${actor.id}`}>{actor.name}</Link>

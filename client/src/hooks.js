@@ -87,6 +87,13 @@ export function useMovieBoard() {
   return { movies, loading, error };
 }
 
+export function useMovieDetail(id) {
+  const { loading, error, data } = useQuery(movieQuery, { variables: { id } });
+  const movie = data ? data.movie : {};
+
+  return { movie, loading, error };
+}
+
 // const [messages, setMessages] = useState([]);
 // useQuery(messagesQuery, {
 //   onCompleted: ({ messages }) => setMessages(messages),

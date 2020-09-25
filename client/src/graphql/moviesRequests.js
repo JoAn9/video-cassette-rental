@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client/core';
-import client from './client';
 
 const movieDetailFragment = gql`
   fragment MovieQuery on Movie {
@@ -81,12 +80,12 @@ export const addActorMutation = gql`
   }
 `;
 
-export async function loadMovie(id) {
-  const {
-    data: { movie },
-  } = await client.query({ query: movieQuery, variables: { id } });
-  return movie;
-}
+// export async function loadMovie(id) {
+//   const {
+//     data: { movie },
+//   } = await client.query({ query: movieQuery, variables: { id } });
+//   return movie;
+// }
 
 // export async function loadMovies() {
 //   const {
