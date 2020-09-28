@@ -57,11 +57,17 @@ export function useAddActor() {
 }
 
 export function useMovieForm() {
-  const { loading, error, data } = useQuery(actorsQuery, {
-    fetchPolicy: 'no-cache',
-  });
+  const { loading: loadingActors, error: errorActors, data } = useQuery(
+    actorsQuery,
+    {
+      fetchPolicy: 'no-cache',
+    }
+  );
   const actors = data ? data.actors : [];
-  const [createMovie] = useMutation(createMovieMutation, {
+  const [
+    createMovie,
+    { loading: loadingCreate, error: errorCreate, data: dataCreate },
+  ] = useMutation(createMovieMutation, {
     update: (cache, { data }) => {
       cache.writeQuery({
         query: movieQuery,
@@ -72,10 +78,12 @@ export function useMovieForm() {
   });
   return {
     actors,
-    loading,
-    error,
+    loadingActors,
+    errorActors,
     createMovie: ({ actorId, title, description }) =>
       createMovie({ variables: { input: { actorId, title, description } } }),
+    loadingCreate,
+    errorCreate,
   };
 }
 
@@ -103,3 +111,11 @@ export function useMovieDetail(id) {
 //     setMessages([...messages, subscriptionData.data.messageAdded]);
 //   },
 // });
+
+// <Mutation
+//   mutation={POST_MUTATION}
+//   variables={{ description, url }}
+//   onCompleted={() => this.props.history.push('/')}
+// >
+//   {postMutation => <button onClick={postMutation}>Submit</button>}
+// </Mutation>;

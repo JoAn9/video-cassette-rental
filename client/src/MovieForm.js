@@ -13,10 +13,18 @@ function MovieForm() {
     description: '',
   });
 
-  const { actors, loading, error, createMovie } = useMovieForm();
-  if (loading) return 'Loading';
-  if (error) return `Some error occurs ${error.message}`;
+  const {
+    actors,
+    loadingActors,
+    errorActors,
+    createMovie,
+    loadingCreate,
+    errorCreate,
+  } = useMovieForm();
 
+  if (loadingActors || loadingCreate) return 'Loading...';
+  if (errorActors || errorCreate)
+    return `Some error occurs ${errorCreate.message}`;
   const handleChangeActor = event => {
     setErrors({ ...errors, selectedActor: '' });
     setSelectedActor(event.target.value);
@@ -49,7 +57,6 @@ function MovieForm() {
     }
 
     const actorId = actors.find(item => item.name === selectedActor).id;
-
     const {
       data: { movie },
     } = await createMovie({
@@ -65,7 +72,7 @@ function MovieForm() {
       <h1 className="title">New Movie</h1>
       <div className="box">
         <form onSubmit={handleSubmit}>
-          <div className="field">
+          <div className="field" data-test="field-actors">
             <label className="label">Choose Actor</label>
             <div className={`select ${errors.selectedActor}`}>
               <select value={selectedActor} onChange={handleChangeActor}>
@@ -78,7 +85,7 @@ function MovieForm() {
               </select>
             </div>
           </div>
-          <div className="field">
+          <div className="field" data-test="field-title">
             <label className="label">Title</label>
             <div className="control">
               <input
@@ -90,7 +97,7 @@ function MovieForm() {
               />
             </div>
           </div>
-          <div className="field">
+          <div className="field" data-test="field-description">
             <label className="label">Description</label>
             <div className="control">
               <textarea
