@@ -1,8 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { MovieDetail } from './types';
 
-function MovieList({ movies }) {
-  const renderMovie = movie => {
+interface Props {
+  movies: MovieDetail[];
+}
+
+function MovieList({ movies }: Props): JSX.Element {
+  const renderMovie = (movie: MovieDetail): JSX.Element => {
     const title = movie.actor
       ? `${movie.title} with ${movie.actor.name}`
       : movie.title;
@@ -15,7 +20,11 @@ function MovieList({ movies }) {
     );
   };
 
-  return <ul className="box">{movies?.map(movie => renderMovie(movie))}</ul>;
+  return (
+    <ul className="box">
+      {movies?.map((movie: MovieDetail) => renderMovie(movie))}
+    </ul>
+  );
 }
 
 export default MovieList;
