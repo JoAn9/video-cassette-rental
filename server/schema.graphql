@@ -37,7 +37,7 @@ type Message {
 }
 
 input CreateMovieInput {
-  actorId: ID
+  actorId: ID!
   title: String
   description: String
 }
