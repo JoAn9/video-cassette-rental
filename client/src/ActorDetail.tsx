@@ -1,19 +1,20 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { useParams } from 'react-router-dom';
 import MovieList from './MovieList';
 import { useActorDetail } from './hooks';
 import { ID } from './types';
 
-interface ParamsTypes {
+type ParamsTypes = {
   actorId: ID;
-}
-function ActorDetail() {
+};
+
+function ActorDetail(): ReactElement {
   const { actorId } = useParams<ParamsTypes>();
 
   const { actor, loading, error } = useActorDetail(actorId);
 
   if (loading) return <h2>Loading</h2>;
-  if (error) return <h2>`Some error occurs ${error.message}`</h2>;
+  if (error) return <h2>Some error occurs ${error.message}</h2>;
   if (!actor) return <h2>Actor not found</h2>;
 
   const { name, description, movies } = actor;
