@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { ApolloProvider } from '@apollo/client';
 import {
   BrowserRouter as Router,
@@ -17,20 +17,20 @@ import ActorForm from './ActorForm';
 import NavBar from './NavBar';
 import Chat from './Chat';
 import UserContext from './contexts/UserContext';
+import { UserContextInterface as User } from './types';
 
-function App() {
+function App(): ReactElement {
   const [loggedIn, setLoggedIn] = useState(isLoggedIn());
-  const [user, setUser] = useState(getLoggedUser());
-
+  const [user, setUser] = useState<User | null>(getLoggedUser());
   let history = useHistory();
 
-  const handleLogin = () => {
+  const handleLogin = (): void => {
     setLoggedIn(true);
     setUser(getLoggedUser());
     history.push('/');
   };
 
-  const handleLogout = () => {
+  const handleLogout = (): void => {
     logout();
     setUser(null);
     setLoggedIn(false);
@@ -63,6 +63,7 @@ function App() {
   );
 }
 
+//@ts-ignore
 export default props => (
   <Router>
     <App data-test="app-component" {...props} />
