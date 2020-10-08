@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useMovieDetail } from './hooks';
+import { ID } from './types';
 
-function MovieDetail() {
-  const { movieId } = useParams();
+type ParamsTypes = {
+  movieId: ID;
+};
+function MovieDetail(): ReactElement | null {
+  const { movieId } = useParams<ParamsTypes>();
   const { loading, error, movie } = useMovieDetail(movieId);
 
-  if (loading) return 'Loading...';
-  if (error) return `Some error occurs: ${error.message}`;
+  if (loading) return <h2>Loading...</h2>;
+  if (error) return <h2>Some error occurs: {error.message}</h2>;
   if (!movie) return null;
 
   const { title, description, actor } = movie;
