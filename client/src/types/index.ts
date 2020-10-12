@@ -28,7 +28,7 @@ export interface MovieDetail {
   id: ID;
   title: string;
   description: string;
-  actor?: Actor;
+  actor: Actor;
 }
 
 export interface MovieDetailData {
@@ -41,4 +41,16 @@ export interface MovieDetailVars {
 
 export interface MoviesData {
   movies: MovieDetail[];
+}
+
+export interface Message {
+  id: ID;
+  from: string;
+  text: string;
+}
+
+export interface UserContextInterface {
+  sub: string;
+  name: string;
+  iat: number;
 }

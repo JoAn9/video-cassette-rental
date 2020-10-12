@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useAddActor } from './hooks';
 
-function ActorForm() {
+function ActorForm(): ReactElement {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [errors, setErrors] = useState({
@@ -13,17 +13,19 @@ function ActorForm() {
 
   let history = useHistory();
 
-  const handleChangeName = event => {
+  const handleChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setErrors({ ...errors, name: '' });
     setName(event.target.value);
   };
 
-  const handleChangeDescription = event => {
+  const handleChangeDescription = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setErrors({ ...errors, description: '' });
     setDescription(event.target.value);
   };
 
-  const handleSubmit = async event => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const errorClass = 'is-danger';
 
@@ -35,12 +37,12 @@ function ActorForm() {
       setErrors({ ...errors, description: errorClass });
       return;
     }
+    const res = await addActor({
+      name,
+      description,
+    });
 
-    const {
-      data: { actor },
-    } = await addActor({ name, description });
-
-    history.push(`/actors/${actor.id}`);
+    history.push(`/actors/${res?.data?.actor?.id}`);
   };
 
   return (

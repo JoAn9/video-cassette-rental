@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 
-function NavBar({ loggedIn, onLogout }) {
+type NavProps = {
+  loggedIn: boolean;
+  onLogout: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+};
+
+function NavBar({ loggedIn, onLogout }: NavProps): ReactElement {
   if (loggedIn) {
     return (
       <nav className="navbar">

@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import { MovieDetail } from './types';
 
-interface Props {
+type MoviesProps = {
   movies: MovieDetail[];
-}
+};
 
-function MovieList({ movies }: Props): JSX.Element {
-  const renderMovie = (movie: MovieDetail): JSX.Element => {
+function MovieList({ movies }: MoviesProps): ReactElement {
+  const renderMovie = (movie: MovieDetail): ReactElement => {
     const title = movie.actor
       ? `${movie.title} with ${movie.actor.name}`
       : movie.title;

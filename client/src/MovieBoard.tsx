@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import MovieList from './MovieList';
 import { useMovieBoard } from './hooks';
 
-function MovieBoard() {
+function MovieBoard(): ReactElement {
   const { movies, loading, error } = useMovieBoard();
 
-  if (loading) return 'Loading...';
-  if (error) return `Some error occurs: ${error.message}`;
+  if (loading) return <h2>Loading...</h2>;
+  if (error) return <h2>Some error occurs: {error.message}</h2>;
 
   return (
     <div>
