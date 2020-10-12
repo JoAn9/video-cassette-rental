@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 import { login } from './utils/auth';
 
 type LoginProps = {
-  onLogin: Function;
+  onLogin: () => void;
 };
 
 function LoginForm({ onLogin }: LoginProps): ReactElement {

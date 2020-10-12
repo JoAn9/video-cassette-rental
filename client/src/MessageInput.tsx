@@ -1,7 +1,7 @@
 import React, { ReactElement, useState } from 'react';
 
 type MessageProps = {
-  onSend: Function;
+  onSend: (text: string) => Promise<any>;
 };
 
 function MessageInput({ onSend }: MessageProps): ReactElement {
