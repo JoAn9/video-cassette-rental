@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useMovieForm } from './hooks';
+import { Actor } from './types';
 
-function MovieForm() {
+function MovieForm(): ReactElement {
   let history = useHistory();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [selectedActor, setSelectedActor] = useState('');
   const [errors, setErrors] = useState({
-    actor: '',
+    selectedActor: '',
     title: '',
     description: '',
   });
@@ -22,25 +23,32 @@ function MovieForm() {
     errorCreate,
   } = useMovieForm();
 
-  if (loadingActors || loadingCreate) return 'Loading...';
+  if (loadingActors || loadingCreate) return <h2>Loading...</h2>;
   if (errorActors || errorCreate)
-    return `Some error occurs ${errorCreate.message}`;
-  const handleChangeActor = event => {
+    return (
+      <h2>
+        Some error occurs {errorCreate?.message} {errorActors?.message}
+      </h2>
+    );
+
+  const handleChangeActor = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setErrors({ ...errors, selectedActor: '' });
     setSelectedActor(event.target.value);
   };
 
-  const handleChangeTitle = event => {
+  const handleChangeTitle = (event: React.ChangeEvent<HTMLInputElement>) => {
     setErrors({ ...errors, title: '' });
     setTitle(event.target.value);
   };
 
-  const handleChangeDescription = event => {
+  const handleChangeDescription = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setErrors({ ...errors, description: '' });
     setDescription(event.target.value);
   };
 
-  const handleSubmit = async event => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const errorClass = 'is-danger';
     if (!selectedActor) {
@@ -56,15 +64,15 @@ function MovieForm() {
       return;
     }
 
-    const actorId = actors.find(item => item.name === selectedActor).id;
-    const {
-      data: { movie },
-    } = await createMovie({
+    const actor = actors.find((item: Actor) => item.name === selectedActor);
+    const actorId = actor?.id ?? '';
+
+    const res = await createMovie({
       actorId,
       title,
       description,
     });
-    history.push(`/movies/${movie.id}`);
+    history.push(`/movies/${res?.data?.movie.id}`);
   };
 
   return (
@@ -76,9 +84,7 @@ function MovieForm() {
             <label className="label">Choose Actor</label>
             <div className={`select ${errors.selectedActor}`}>
               <select value={selectedActor} onChange={handleChangeActor}>
-                <option defaultValue hidden>
-                  actors
-                </option>
+                <option hidden>actors</option>
                 {actors.map(item => (
                   <option key={item.id}>{item.name}</option>
                 ))}
