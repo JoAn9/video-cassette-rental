@@ -7,18 +7,16 @@ type MessageListProps = {
 };
 
 function MessageList({ messages, user }: MessageListProps): ReactElement {
-  const boxRef = createRef();
+  const boxRef = createRef<HTMLDivElement>();
   useEffect(() => {
     const box = boxRef.current;
-    // @ts-ignore
-    box.scrollTo(0, box.scrollHeight);
+    if (box) box.scrollTo(0, box.scrollHeight);
     return () => {};
   }, [boxRef]);
 
   const renderMessage = (item: Message) => {
     let tag = 'tag';
-    // @ts-ignore
-    if (item.from === user.name) {
+    if (user && item.from === user.name) {
       tag += ' is-primary';
     }
     return (
@@ -32,7 +30,6 @@ function MessageList({ messages, user }: MessageListProps): ReactElement {
   };
   return (
     <div
-      // @ts-ignore
       ref={boxRef}
       className="box"
       style={{ height: '50vh', overflowY: 'scroll' }}
