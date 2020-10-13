@@ -1,0 +1,54 @@
+Suppress TypeScript errors by adding // @ts-ignore on the line before the error
+
+// Written as a function declaration
+function Heading({ name, color }: Props): React.ReactNode {
+  return <h1>My Website Heading</h1>
+}
+
+// Written as a function expression
+const OtherHeading: React.FC<OtherProps> = ({ name, color }) =>
+  <h1>My Website Heading</h1>
+
+
+Type inference works very well most of the time:
+const [val, toggle] = React.useState(false); 
+
+However, many hooks are initialized with null-ish default values, and you may wonder how to provide types. Explicitly declare the type, and use a union type:
+
+const [user, setUser] = React.useState<IUser | null>(null);
+
+export function useLoading() {
+  const [isLoading, setState] = React.useState(false);
+  const load = (aPromise: Promise<any>) => {
+    setState(true);
+    return aPromise.finally(() => setState(false));
+  };
+  return [isLoading, load] as const; // infers [boolean, typeof load] instead of (boolean | typeof load)[]
+}
+
+consider using type for your React Component Props and State
+
+Types are useful for union types (e.g. type MyType = TypeA | TypeB) whereas Interfaces are better for declaring dictionary shapes and then implementing or extending them.
+
+Rozszerzanie typów:
+type ButtonProps = {
+    color: string;
+    text: string;
+}
+type ContainerProps = ButtonProps & {
+    height: number;
+
+
+/** array of objects! (common) */
+  objArr: {
+    id: string;
+    title: string;
+  }[];
+  /** a dict object with any number of properties of the same type */
+  dict1: {
+    [key: string]: MyTypeHere;
+  };
+  dict2: Record<string, MyTypeHere>; // equivalent to dict1
+
+
+
