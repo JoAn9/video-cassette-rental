@@ -11,6 +11,7 @@ import {
   createMovieMutation,
   movieQuery,
   moviesQuery,
+  searchMoviesQuery,
 } from './graphql/moviesRequests';
 import {
   ID,
@@ -50,6 +51,7 @@ export function useChatMessages() {
 export function useActorDetail(id: ID) {
   const { loading, error, data } = useQuery<ActorData, ActorVars>(actorQuery, {
     variables: { id },
+    fetchPolicy: 'no-cache',
   });
   const actor = data && data.actor;
   return { actor, loading, error };
@@ -134,6 +136,10 @@ export function useMovieDetail(id: ID) {
   const movie = data && data.movie;
 
   return { movie, loading, error };
+}
+
+export function useSearchMovies(text: string) {
+  
 }
 
 // const [messages, setMessages] = useState([]);
