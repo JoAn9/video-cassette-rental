@@ -1,5 +1,7 @@
 const { PubSub } = require('graphql-subscriptions');
 const db = require('./db');
+const MovieDB = require('./models/movie');
+const ActorDB = require('./models/actor');
 
 const pubSub = new PubSub();
 
@@ -12,10 +14,10 @@ const requireAuth = id => {
 };
 
 const Query = {
-  movie: (parent, { id }) => db.movies.get(id),
-  movies: () => db.movies.list(),
-  actor: (parent, { id }) => db.actors.get(id),
-  actors: () => db.actors.list(),
+  movie: (parent, { id }) => MovieDB.findById(id),
+  movies: () => MovieDB.find({}),
+  actor: (parent, { id }) => ActorDB.findById(id),
+  actors: () => ActorDB.find({}),
   messages: (parent, args, { user }) => {
     requireAuth(user.id);
     return db.messages.list();
@@ -25,13 +27,11 @@ const Query = {
 const Mutation = {
   createMovie: (parent, { input }, { user }) => {
     requireAuth(user.id);
-    const id = db.movies.create(input);
-    return db.movies.get(id);
+    return MovieDB.create(input);
   },
   addActor: (parent, { input }, { user }) => {
     requireAuth(user.id);
-    const id = db.actors.create({ ...input, addedBy: user.id });
-    return db.actors.get(id);
+    return ActorDB.create({ ...input, addedBy: user.id });
   },
   addMessage: (parent, { input }, { user }) => {
     requireAuth(user.id);
@@ -55,11 +55,11 @@ const Subscription = {
 };
 
 const Actor = {
-  movies: actor => db.movies.list().filter(movie => movie.actorId === actor.id),
+  movies: parent => MovieDB.find({ actorId: parent.id }),
 };
 
 const Movie = {
-  actor: parent => db.actors.get(parent.actorId),
+  actor: parent => ActorDB.findById(parent.actorId),
 };
 
 module.exports = { Query, Mutation, Subscription, Movie, Actor };
