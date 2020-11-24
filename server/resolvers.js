@@ -16,6 +16,16 @@ const requireAuth = id => {
 const Query = {
   movie: (parent, { id }) => MovieDB.findById(id),
   movies: () => MovieDB.find({}),
+  // @todo: add finding by actor
+  searchMovies: async (parent, { text }) => {
+    const foundMovies = await MovieDB.find({
+      $or: [
+        { title: { $regex: text, $options: 'i' } },
+        { description: { $regex: text, $options: 'i' } },
+      ],
+    });
+    return foundMovies;
+  },
   actor: (parent, { id }) => ActorDB.findById(id),
   actors: () => ActorDB.find({}),
   messages: (parent, args, { user }) => {

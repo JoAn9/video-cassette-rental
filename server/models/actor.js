@@ -8,12 +8,13 @@ const actorSchema = new Schema(
     name: String,
     description: String,
     addedBy: String,
+    // movies: { type: Array, default: [] },
     movies: [
       {
         _id: SchemaObjectId,
         title: String,
         description: String,
-        actor: {},
+        actor: { type: Object },
       },
     ],
   },
@@ -21,7 +22,3 @@ const actorSchema = new Schema(
 );
 
 module.exports = mongoose.model('ActorDB', actorSchema);
-
-// to-fix
-// 1. actor _id
-// 2. mongoose connection (password, process.dot.env)
