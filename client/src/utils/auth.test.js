@@ -32,7 +32,7 @@ describe('test login function', () => {
     const mockedToken = await login();
 
     expect(mockedToken).toBe(null);
-    expect(fetch).toHaveBeenCalledWith('http://localhost:8000/login', {
+    expect(fetch).toHaveBeenCalledWith('http://localhost:8080/login', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({}),

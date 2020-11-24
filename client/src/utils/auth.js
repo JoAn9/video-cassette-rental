@@ -17,7 +17,7 @@ export function getLoggedUser() {
 
 export async function login(email, password) {
   try {
-    const response = await fetch('http://localhost:8000/login', {
+    const response = await fetch('http://localhost:8080/login', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ email, password }),

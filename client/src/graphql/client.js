@@ -9,8 +9,8 @@ import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { getAccessToken } from '../utils/auth';
 
-const endpointURL = 'http://localhost:8000/graphql';
-const wsUrl = 'ws://localhost:8000/graphql';
+const endpointURL = 'http://localhost:8080/graphql';
+const wsUrl = 'ws://localhost:8080/graphql';
 
 const authLink = new ApolloLink((operation, forward) => {
   const token = getAccessToken();

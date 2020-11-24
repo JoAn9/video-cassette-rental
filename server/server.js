@@ -11,7 +11,7 @@ const jwt = require('jsonwebtoken');
 const db = require('./db');
 
 try {
-  const port = 8000;
+  const port = 8080;
   const jwtSecret = Buffer.from('Zn8Q5tyZ/G1MHltc4F/gTkVJMlrbKiZt', 'base64');
 
   mongoose.connect(config.db, {
