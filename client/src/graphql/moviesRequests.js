@@ -80,6 +80,19 @@ export const addActorMutation = gql`
   }
 `;
 
+export const searchMoviesQuery = gql`
+  query searchMovies($text: String) {
+    searchMovies(text: $text) {
+      id
+      title
+      actor {
+        id
+        name
+      }
+    }
+  }
+`;
+
 // export async function loadMovie(id) {
 //   const {
 //     data: { movie },
