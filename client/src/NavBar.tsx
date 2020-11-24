@@ -6,6 +6,7 @@ type NavProps = {
   onLogout: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
 };
 
+//@todo: fix displaying active item in menu
 function NavBar({ loggedIn, onLogout }: NavProps): ReactElement {
   if (loggedIn) {
     return (

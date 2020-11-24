@@ -139,7 +139,16 @@ export function useMovieDetail(id: ID) {
 }
 
 export function useSearchMovies(text: string) {
-  
+  const { loading, error, data } = useQuery(
+    searchMoviesQuery,
+    {
+      variables: { text },
+      fetchPolicy: 'no-cache',
+    }
+  );
+  const movies = data && data.searchMovies;
+  return { movies, loading, error };
+
 }
 
 // const [messages, setMessages] = useState([]);

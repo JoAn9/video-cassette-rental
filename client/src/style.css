@@ -5,3 +5,12 @@ html {
 nav.navbar {
   background-color: #b4dcfd;
 }
+
+.titleHeading {
+  display: flex;
+  justify-content: space-between;
+}
+
+.search {
+  width: 50%;
+}
